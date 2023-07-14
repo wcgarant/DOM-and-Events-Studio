@@ -28,6 +28,8 @@ function init() {
     takeoff.addEventListener("click", function(event){
     if (window.confirm("Confirm that the shuttle is ready for takeoff.")) {
         //flight status should change to shuttle in flight
+        rocketPosY += 10;
+        rocket.style.marginBottom = rocketPosY + "px";
         flightStatus.innerHTML = "Shuttle in flight.";
         //shuttleBackground should change from green to blue
         shuttleBackground.style.backgroundColor = "blue";
@@ -42,7 +44,7 @@ function init() {
         window.alert("The shuttle is landing. Landing gear engaged.");
 
         flightStatus.innerHTML = "The shuttle has landed.";
-
+        resetRocket();
         shuttleBackground.style.backgroundColor = "green";
         altitude = 0;
         spaceShuttleHeight.innerHTML = "0";
@@ -56,7 +58,7 @@ function init() {
         flightStatus.innerHTML = "Mission aborted";
     
         shuttleBackground.style.backgroundColor = "green";
-
+        resetRocket();
         altitude = 0;
         spaceShuttleHeight.innerHTML = "0";
        }
@@ -64,24 +66,26 @@ function init() {
     });
 
     document.addEventListener("click", function(event) {
-        if (event.target.id === "left") {
+        let bkgWidth = parseInt(window.getComputedStyle(shuttleBackground).getPropertyValue('width'));
+
+        if (event.target.id === "left" && rocketPosX > -(bkgWidth / 2 - 40)) {
             rocketPosX -= 10;
             rocket.style.marginLeft = rocketPosX + "px";
         };
 
-        if (event.target.id === "right") {
+        if (event.target.id === "right" && rocketPosX < (bkgWidth / 2 - 40)) {
             rocketPosX += 10;
             rocket.style.marginLeft = rocketPosX + "px";
         };
 
-        if (event.target.id === "up") {
+        if (event.target.id === "up" && altitude < 250000) {
             rocketPosY += 10;
             rocket.style.marginBottom = rocketPosY + "px";
             altitude += 10000;
             spaceShuttleHeight.innerHTML = altitude
         };
 
-        if (event.target.id === "down") {
+        if (event.target.id === "down" && altitude > 0) {
             rocketPosY -= 10;
             rocket.style.marginBottom = rocketPosY + "px";
             altitude -= 10000;
@@ -89,9 +93,11 @@ function init() {
         };
     })
 
-
-
-
-
+    function resetRocket() {
+        rocketPosX = 0;
+        rocketPosY = 0;
+        rocket.style.marginLeft = rocketPosX + "px";
+        rocket.style.marginBottom = rocketPosY + "px";  
+    }
 
 }
