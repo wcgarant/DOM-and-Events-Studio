@@ -10,6 +10,9 @@
     color: green;
 }
 
+#rocket {
+    position: absolute;
+}
 #flightDisplay {
     text-align: center; 
     height: 400px; 
